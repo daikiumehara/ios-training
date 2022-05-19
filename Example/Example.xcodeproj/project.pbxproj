@@ -356,8 +356,8 @@
 				$SRCROOT/$PRODUCT_NAME/R.generated.swift,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if mint list | grep -q 'R.swift'; then\n  xcrun --sdk macosx mint run R.swift rswift generate \"$SRCROOT/$PRODUCT_NAME/R.generated.swift\"\nelse\n  echo \"error: R.swift not installed; run 'mint bootstrap' to install\"\n  return -1\nfi\n";
+			shellPath = /bin/zsh;
+			shellScript = "export PATH=/opt/homebrew/bin:$PATH\nif mint list | grep -q 'R.swift'; then\n  xcrun --sdk macosx mint run R.swift rswift generate \"$SRCROOT/$PRODUCT_NAME/R.generated.swift\"\nelse\n  echo \"error: R.swift not installed; run 'mint bootstrap' to install\"\n  return -1\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
