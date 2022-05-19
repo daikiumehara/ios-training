@@ -50,8 +50,8 @@ class WeatherViewController: UIViewController {
                 self.handleWeather(result: result)
             }
         }
-        disasterModel.fetchDisaster { (disaster) in
-            self.disasterLabel.text = disaster
+        disasterModel.fetchDisaster { [weak self] (disaster) in
+            self?.disasterLabel.text = disaster
         }
     }
     
