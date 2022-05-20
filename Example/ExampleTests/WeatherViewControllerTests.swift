@@ -35,8 +35,10 @@ class WeatherViewControllerTests: XCTestCase {
         }
         
         weahterViewController.loadWeather(nil)
-        XCTAssertEqual(self.weahterViewController.weatherImageView.tintColor, R.color.red())
-        XCTAssertEqual(self.weahterViewController.weatherImageView.image, R.image.sunny())
+        DispatchQueue.main.async {
+            XCTAssertEqual(self.weahterViewController.weatherImageView.tintColor, R.color.red())
+            XCTAssertEqual(self.weahterViewController.weatherImageView.image, R.image.sunny())
+        }
     }
     
     func test_天気予報がcloudyだったらImageViewのImageにcloudyが設定されること_TintColorがgrayに設定されること() throws {
@@ -45,8 +47,10 @@ class WeatherViewControllerTests: XCTestCase {
         }
         
         weahterViewController.loadWeather(nil)
-        XCTAssertEqual(weahterViewController.weatherImageView.tintColor, R.color.gray())
-        XCTAssertEqual(weahterViewController.weatherImageView.image, R.image.cloudy())
+        DispatchQueue.main.async {
+            XCTAssertEqual(self.weahterViewController.weatherImageView.tintColor, R.color.gray())
+            XCTAssertEqual(self.weahterViewController.weatherImageView.image, R.image.cloudy())
+        }
     }
     
     func test_天気予報がrainyだったらImageViewのImageにrainyが設定されること_TintColorがblueに設定されること() throws {
@@ -55,8 +59,10 @@ class WeatherViewControllerTests: XCTestCase {
         }
         
         weahterViewController.loadWeather(nil)
-        XCTAssertEqual(weahterViewController.weatherImageView.tintColor, R.color.blue())
-        XCTAssertEqual(weahterViewController.weatherImageView.image, R.image.rainy())
+        DispatchQueue.main.async {
+            XCTAssertEqual(self.weahterViewController.weatherImageView.tintColor, R.color.blue())
+            XCTAssertEqual(self.weahterViewController.weatherImageView.image, R.image.rainy())
+        }
     }
     
     func test_最高気温_最低気温がUILabelに設定されること() throws {
@@ -65,8 +71,10 @@ class WeatherViewControllerTests: XCTestCase {
         }
         
         weahterViewController.loadWeather(nil)
-        XCTAssertEqual(weahterViewController.minTempLabel.text, "-100")
-        XCTAssertEqual(weahterViewController.maxTempLabel.text, "100")
+        DispatchQueue.main.async {
+            XCTAssertEqual(self.weahterViewController.minTempLabel.text, "-100")
+            XCTAssertEqual(self.weahterViewController.maxTempLabel.text, "100")
+        }
     }
 }
 
