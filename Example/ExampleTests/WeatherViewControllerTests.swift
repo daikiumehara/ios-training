@@ -80,21 +80,9 @@ class WeatherViewControllerTests: XCTestCase {
 
 class WeatherModelMock: WeatherModel {
     func fetchWeather(at area: String, date: Date, completion: @escaping (Result<Response, WeatherError>) -> Void) {
-        do {
-            let response = try fetchWeatherImpl(Request(area: area,
-                                                        date: date))
-            DispatchQueue.main.async {
-                completion(.success(response))
-            }
-        } catch {
-            // 現時点のテストではあり得ない
-        }
+        let response = try! fetchWeatherImpl(Request(area: area,
+                                                     date: date))
+        completion(.success(response))
     }
-    
-    
     var fetchWeatherImpl: ((Request) throws -> Response)!
-    
-    func fetchWeather(_ request: Request) throws -> Response {
-        return try fetchWeatherImpl(request)
-    }
 }
