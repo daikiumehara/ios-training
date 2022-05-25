@@ -30,72 +30,63 @@ class WeatherViewControllerTests: XCTestCase {
     }
     
     func test_天気予報がsunnyだったらImageViewのImageにsunnyが設定されること_TintColorがredに設定されること() throws {
-        let exp = XCTestExpectation(description: "\(#function)のデータ取得を待機")
         weahterModel.fetchWeatherImpl = { _ in
             Response(weather: .sunny, maxTemp: 0, minTemp: 0, date: Date())
         }
-        self.weahterViewController.loadWeather(nil)
-        
-        DispatchQueue.main.async {
+        weahterViewController.loadWeather(nil)
+        asyncUITest(funcName: #function, timeout: 5.0) {
             XCTAssertEqual(self.weahterViewController.weatherImageView.tintColor, R.color.red())
             XCTAssertEqual(self.weahterViewController.weatherImageView.image, R.image.sunny())
-            exp.fulfill()
         }
-        
-        wait(for: [exp], timeout: 5.0)
     }
     
     func test_天気予報がcloudyだったらImageViewのImageにcloudyが設定されること_TintColorがgrayに設定されること() throws {
-        let exp = XCTestExpectation(description: "\(#function)のデータ取得を待機")
         weahterModel.fetchWeatherImpl = { _ in
             Response(weather: .cloudy, maxTemp: 0, minTemp: 0, date: Date())
         }
         
         weahterViewController.loadWeather(nil)
-        DispatchQueue.main.async {
+        asyncUITest(funcName: #function, timeout: 5.0) {
             XCTAssertEqual(self.weahterViewController.weatherImageView.tintColor, R.color.gray())
             XCTAssertEqual(self.weahterViewController.weatherImageView.image, R.image.cloudy())
-            exp.fulfill()
         }
-        
-        wait(for: [exp], timeout: 5.0)
     }
     
     func test_天気予報がrainyだったらImageViewのImageにrainyが設定されること_TintColorがblueに設定されること() throws {
-        let exp = XCTestExpectation(description: "\(#function)のデータ取得を待機")
         weahterModel.fetchWeatherImpl = { _ in
             Response(weather: .rainy, maxTemp: 0, minTemp: 0, date: Date())
         }
         
         weahterViewController.loadWeather(nil)
-        DispatchQueue.main.async {
+        asyncUITest(funcName: #function, timeout: 5.0) {
             XCTAssertEqual(self.weahterViewController.weatherImageView.tintColor, R.color.blue())
             XCTAssertEqual(self.weahterViewController.weatherImageView.image, R.image.rainy())
-            exp.fulfill()
         }
-        
-        wait(for: [exp], timeout: 5.0)
     }
     
     func test_最高気温_最低気温がUILabelに設定されること() throws {
-        let exp = XCTestExpectation(description: "\(#function)のデータ取得を待機")
         weahterModel.fetchWeatherImpl = { _ in
             Response(weather: .rainy, maxTemp: 100, minTemp: -100, date: Date())
         }
         
         weahterViewController.loadWeather(nil)
-        DispatchQueue.main.async {
+        asyncUITest(funcName: #function, timeout: 5.0) {
             XCTAssertEqual(self.weahterViewController.minTempLabel.text, "-100")
             XCTAssertEqual(self.weahterViewController.maxTempLabel.text, "100")
+        }
+    }
+    
+    private func asyncUITest(funcName: String, timeout: TimeInterval, _ handler: @escaping () -> Void) {
+        let exp = XCTestExpectation(description: "\(funcName)の待機でタイムアウト")
+        DispatchQueue.main.async {
+            handler()
             exp.fulfill()
         }
-        
-        wait(for: [exp], timeout: 5.0)
+        wait(for: [exp], timeout: timeout)
     }
 }
 
 class WeatherModelMock: WeatherModel {
-    let exp = XCTestExpectation(description: "\(#function)のデータ取得を待機")
     func fetchWeather(at area: String, date: Date, completion: @escaping (Result<Response, WeatherError>) -> Void) {
         let response = try! fetchWeatherImpl(Request(area: area,
                                                      date: date))
