@@ -24,11 +24,11 @@ class WeatherViewControllerTests: XCTestCase {
         weatherViewController.disasterModel = disasterModel
         _ = weatherViewController.view
     }
-    
+
     override func tearDownWithError() throws {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
-    
+
     func test_天気予報がsunnyだったらImageViewのImageにsunnyが設定されること_TintColorがredに設定されること() throws {
         weatherModel.fetchWeatherImpl = { _ in
             Response(weather: .sunny, maxTemp: 0, minTemp: 0, date: Date())
